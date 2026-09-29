@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- iPhone の画面いっぱい（ノッチ部分まで）に表示する -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- ダークモードに対応していることをブラウザに伝える -->
+    <meta name="color-scheme" content="light dark" />
+    <!-- 画面上部（時刻などが出る帯）の色。ダークモードのときは暗い色 -->
+    <meta name="theme-color" content="#f7f5f2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#151515" media="(prefers-color-scheme: dark)" />
+    <!-- iPhone のホーム画面に追加したときのアイコンと名前 -->
+    <link rel="apple-touch-icon" href="/icons/icon-180.png" />
+    <meta name="apple-mobile-web-app-title" content="育児記録" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>育児記録</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

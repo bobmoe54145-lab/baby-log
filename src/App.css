@@ -1,0 +1,909 @@
+/* 画面全体：上に中身、下にタブを固定する */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.content {
+  flex: 1;
+  padding: 16px;
+  /* iPhone のノッチ部分に文字が隠れないようにする */
+  padding-top: calc(16px + env(safe-area-inset-top));
+}
+
+.screen-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.screen-header h1 {
+  flex: 1;
+  margin: 0;
+  font-size: 22px;
+}
+
+.icon-button,
+.text-button {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.icon-button {
+  font-size: 24px;
+}
+
+.text-button {
+  color: var(--accent);
+}
+
+.placeholder {
+  color: var(--text-sub);
+}
+
+/* 画面下のタブ */
+.tab-bar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  /* iPhone の画面下のバー部分と重ならないようにする */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tab {
+  flex: 1;
+  min-height: 56px;
+  background: none;
+  border: none;
+  color: var(--text-sub);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.tab.active {
+  color: var(--accent);
+  font-weight: bold;
+}
+
+/* ボタンを押したときなどに画面が拡大されないようにする */
+button {
+  touch-action: manipulation;
+}
+
+/* 「前回の授乳から◯時間◯分」の表示 */
+.elapsed-card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.elapsed-label {
+  color: var(--text-sub);
+}
+
+.elapsed-value {
+  font-size: 40px;
+  font-weight: bold;
+  margin: 4px 0;
+}
+
+.elapsed-detail {
+  color: var(--text-sub);
+  font-size: 14px;
+}
+
+/* 記録ボタン：2列に並べ、片手の親指で押しやすい大きさにする */
+.record-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.record-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 72px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.record-button:active {
+  background: var(--border);
+}
+
+.record-button small {
+  color: var(--text-sub);
+  font-size: 12px;
+  font-weight: normal;
+}
+
+/* 睡眠中は色を変えて、今寝ていることがわかるようにする */
+.record-button.asleep {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* 記録したあとのお知らせ：タブの少し上に出す */
+.toast {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(72px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 12px;
+  z-index: 20;
+}
+
+.toast-message {
+  flex: 1;
+}
+
+.toast-action {
+  background: none;
+  border: none;
+  color: var(--toast-accent);
+  font-weight: bold;
+  padding: 8px;
+  cursor: pointer;
+}
+
+/* 下からせり上がる入力パネル */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  background: rgb(0 0 0 / 40%);
+  z-index: 30;
+}
+
+.sheet {
+  width: 100%;
+  background: var(--bg);
+  border-radius: 16px 16px 0 0;
+  padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sheet-header h2 {
+  flex: 1;
+  margin: 0;
+  font-size: 18px;
+}
+
+/* 量や症状の選択肢 */
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* 症状は5つを1段に並べる */
+.choice-grid.five {
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.choice {
+  min-height: 52px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.choice.selected {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.custom-row {
+  display: flex;
+  gap: 8px;
+}
+
+/* iPhone では 16px 未満の入力欄を押すと画面が拡大されるため、16px にする */
+.custom-row input,
+.memo {
+  flex: 1;
+  width: 100%;
+  padding: 12px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.memo {
+  margin-bottom: 12px;
+  resize: none;
+}
+
+.primary {
+  min-height: 52px;
+  padding: 0 20px;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.primary:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.primary.wide {
+  width: 100%;
+}
+
+/* 体温の ＋－ ボタン */
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin: 8px 0 20px;
+}
+
+.stepper-button {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.stepper-value {
+  font-size: 40px;
+  font-weight: bold;
+  min-width: 140px;
+  text-align: center;
+}
+
+/* 2〜3個の中から1つを選ぶボタンの並び（左／右、3日／1週間など） */
+.segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.segmented .choice {
+  flex: 1;
+}
+
+/* 見出し付きの入力欄 */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+  color: var(--text-sub);
+  font-size: 14px;
+}
+
+.field input {
+  padding: 12px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+/* 削除ボタン */
+.danger {
+  min-height: 52px;
+  margin-top: 8px;
+  background: none;
+  color: #c0392b;
+  border: 1px solid currentcolor;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.danger.wide {
+  width: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  .danger {
+    color: #ff7b6e;
+  }
+}
+
+/* まとめ画面：最後の記録 */
+.last-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 12px;
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-radius: 16px;
+}
+
+.last-list dt {
+  color: var(--text-sub);
+}
+
+.last-list dd {
+  margin: 0;
+  font-weight: bold;
+}
+
+.day-link {
+  background: none;
+  border: none;
+  padding: 4px 2px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.section-title {
+  margin: 20px 0 8px;
+  font-size: 16px;
+}
+
+/* 体温・症状の一覧 */
+.note-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.note-list li {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.record-time {
+  /* 「9:10」と「11:05」で本文の位置がずれないよう、幅をそろえる */
+  min-width: 3em;
+  color: var(--text-sub);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* 1日の記録の画面 */
+.day-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.day-nav h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.day-nav .text-button {
+  font-size: 20px;
+}
+
+.day-nav .text-button:disabled {
+  opacity: 0.3;
+}
+
+.record-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.record-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 4px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  cursor: pointer;
+}
+
+.record-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.record-body small {
+  color: var(--text-sub);
+}
+
+/* まとめ画面の真ん中：左に選んだ日のまとめ、右にカレンダー */
+.day-summary-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.day-summary,
+.calendar {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 10px;
+}
+
+.day-summary h2 {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+
+.day-summary dl {
+  margin: 0;
+}
+
+.day-summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.day-summary-item dt {
+  color: var(--text-sub);
+  font-size: 14px;
+}
+
+.day-summary-item dd {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+
+.day-summary-item small {
+  margin-left: 2px;
+  color: var(--text-sub);
+  font-size: 11px;
+  font-weight: normal;
+}
+
+.day-summary .day-link {
+  margin-top: 6px;
+  padding: 6px 0;
+  font-size: 13px;
+}
+
+/* カレンダー */
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.calendar-nav .text-button {
+  padding: 4px 6px;
+}
+
+.calendar-nav .text-button:disabled {
+  opacity: 0.3;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+}
+
+.calendar-weekday {
+  color: var(--text-sub);
+  font-size: 10px;
+  padding: 2px 0;
+}
+
+.calendar-day {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 0;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.calendar-day:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.calendar-day.today {
+  border-color: var(--accent);
+}
+
+.calendar-day.selected {
+  background: var(--accent);
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* 記録がある日は下に小さな点を付ける */
+.calendar-day.marked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.calendar-day.selected.marked::after {
+  background: #ffffff;
+}
+
+/* 画面上部の名前と月齢 */
+.child-title {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+
+.child-title span {
+  color: var(--text-sub);
+  font-size: 14px;
+}
+
+/* 子どもの情報が未登録のときの案内 */
+.setup-banner {
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px dashed var(--accent);
+  border-radius: 12px;
+  color: var(--accent);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* ホーム画面の「次の予防接種」 */
+.next-vaccine {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: none;
+  border-radius: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.next-vaccine-label {
+  color: var(--text-sub);
+  font-size: 13px;
+}
+
+/* 予防接種画面 */
+.vaccine-group {
+  margin-bottom: 16px;
+}
+
+.vaccine-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--surface);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.vaccine-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  cursor: pointer;
+}
+
+.vaccine-list li:last-child .vaccine-row {
+  border-bottom: none;
+}
+
+.vaccine-name {
+  font-weight: bold;
+}
+
+.vaccine-row small {
+  color: var(--text-sub);
+}
+
+/* 期間を過ぎたものは目立たせる */
+.vaccine-row.overdue small {
+  color: #c0392b;
+}
+
+.vaccine-row.done .vaccine-name {
+  color: var(--text-sub);
+}
+
+.vaccine-period {
+  margin: 0 0 8px;
+  font-weight: bold;
+}
+
+.hint-text {
+  margin: 12px 0 0;
+  color: var(--text-sub);
+  font-size: 12px;
+}
+
+.hint-text a {
+  color: var(--accent);
+  margin-left: 4px;
+}
+
+.segmented .primary {
+  flex: 1;
+}
+
+.choice:disabled {
+  opacity: 0.4;
+}
+
+.form {
+  margin-bottom: 24px;
+}
+
+/* 見出しの横に置く小さな切り替えボタン */
+.segmented.compact {
+  margin-bottom: 0;
+}
+
+.segmented.compact .choice {
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* 健診の名前は長いので3列にして文字を少し小さくする */
+.choice-grid.three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.choice-grid.three .choice {
+  min-height: 44px;
+  padding: 0 4px;
+  font-size: 13px;
+}
+
+/* 身長と体重の入力欄を横に並べる */
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* 成長曲線 */
+.chart-card {
+  padding: 12px;
+  background: var(--surface);
+  border-radius: 16px;
+}
+
+.chart-readout {
+  min-height: 1.5em;
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.growth-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chart-grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.chart-tick {
+  fill: var(--text-sub);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-band-outer {
+  fill: var(--chart-band-outer);
+}
+
+.chart-band-inner {
+  fill: var(--chart-band-inner);
+}
+
+.chart-median {
+  fill: none;
+  stroke: var(--chart-median);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+
+.chart-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.chart-point-group {
+  cursor: pointer;
+}
+
+.chart-hit {
+  fill: transparent;
+}
+
+/* 点のまわりに背景色の縁を付けて、線や帯と重なっても見えるようにする */
+.chart-point {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 2;
+}
+
+.chart-point.selected {
+  stroke: var(--text);
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  margin: 6px 0 0;
+  color: var(--text-sub);
+  font-size: 11px;
+}
+
+.legend-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 10px;
+  margin-left: 6px;
+  border-radius: 2px;
+}
+
+.legend-swatch:first-child {
+  margin-left: 0;
+}
+
+.legend-swatch.outer {
+  background: var(--chart-band-outer);
+  border: 1px solid var(--chart-band-inner);
+}
+
+.legend-swatch.inner {
+  background: var(--chart-band-inner);
+}
+
+.legend-swatch.median {
+  height: 0;
+  border-top: 2px dashed var(--chart-median);
+}
+
+.add-button {
+  margin-top: 16px;
+}
+
+/* 設定画面のバックアップ欄 */
+.backup .primary,
+.backup .wide-choice {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.wide-choice {
+  min-height: 52px;
+}
+
+.backup-last {
+  margin: 8px 0 0;
+  font-size: 14px;
+}
+
+.restore-confirm {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.restore-confirm p {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.restore-warning {
+  color: #c0392b;
+  font-weight: bold;
+}
+
+.restore-confirm .danger {
+  flex: 1;
+  margin-top: 0;
+}
+
+.backup-message {
+  margin: 12px 0 0;
+  font-weight: bold;
+}
+
+.backup-message.error {
+  color: #c0392b;
+}
+
+@media (prefers-color-scheme: dark) {
+  .restore-warning,
+  .backup-message.error {
+    color: #ff7b6e;
+  }
+}

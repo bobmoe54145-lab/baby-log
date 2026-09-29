@@ -1,0 +1,50 @@
+/* 色の設定：明るい画面用 */
+:root {
+  --bg: #f7f5f2;
+  --surface: #ffffff;
+  --text: #2b2b2b;
+  --text-sub: #6b6b6b;
+  --accent: #d9776b;
+  --border: #e4e0da;
+  /* お知らせ（暗い背景）の上のボタンの色 */
+  --toast-accent: #f2a69c;
+  /* 成長曲線：標準の範囲の帯と中央値の線 */
+  --chart-band-outer: #ede9e3;
+  --chart-band-inner: #ddd7ce;
+  --chart-median: #a39b90;
+
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* iPhone がダークモードのときは暗い色に切り替える */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #151515;
+    --surface: #222222;
+    --text: #eeeeee;
+    --text-sub: #a0a0a0;
+    --accent: #e8958a;
+    --border: #333333;
+    --toast-accent: #b5533f;
+    --chart-band-outer: #2b2b2b;
+    --chart-band-inner: #3a3a3a;
+    --chart-median: #777777;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
