@@ -10,6 +10,7 @@ import Toast, { type ToastAction } from '../components/Toast'
 import MilkSheet from '../components/MilkSheet'
 import TemperatureSheet from '../components/TemperatureSheet'
 import SymptomSheet from '../components/SymptomSheet'
+import TimeSheet from '../components/TimeSheet'
 
 type Props = {
   onOpenSettings: () => void
@@ -21,6 +22,7 @@ type Sheet =
   | { kind: 'milk'; editId?: number }
   | { kind: 'temperature' }
   | { kind: 'symptom' }
+  | { kind: 'time'; record: CareRecord } // 記録したあとに時間を直す
   | null
 
 // 記録したあとに出すお知らせの中身
@@ -29,6 +31,9 @@ type ToastState = {
   message: string
   isMilk: boolean
 }
+
+// 記録の種類を「授乳（左）」のように表す（時間を直すパネルの見出しに使う）
+const recordTitle = (r: CareRecord) => `「${describeRecord(r)}」の時間`
 
 // 体温の記録がまだないときに最初に表示する値
 const DEFAULT_TEMPERATURE = 36.5
@@ -81,6 +86,17 @@ function HomeScreen({ onOpenSettings, onOpenVaccines }: Props) {
     }
   }
 
+  // 時間を直したとき
+  const onTimeSelected = async (target: CareRecord, at: number) => {
+    setSheet(null)
+    await db.records.update(target.id, { at })
+    setToast({
+      recordId: target.id,
+      message: `「${describeRecord(target)}」を ${formatTime(at)} に変更しました`,
+      isMilk: target.type === 'milk',
+    })
+  }
+
   // お知らせのボタン
   const toastActions = (t: ToastState): ToastAction[] => {
     const undo: ToastAction = {
@@ -90,7 +106,16 @@ function HomeScreen({ onOpenSettings, onOpenVaccines }: Props) {
         setToast(null)
       },
     }
-    if (!t.isMilk) return [undo]
+    const changeTime: ToastAction = {
+      label: '時間を変える',
+      onClick: async () => {
+        setToast(null)
+        // 量を直したあとなどでも最新の中身を使うため、保存場所から読み直す
+        const target = await db.records.get(t.recordId)
+        if (target) setSheet({ kind: 'time', record: target })
+      },
+    }
+    if (!t.isMilk) return [changeTime, undo]
     const changeAmount: ToastAction = {
       label: '量を変える',
       onClick: () => {
@@ -98,7 +123,7 @@ function HomeScreen({ onOpenSettings, onOpenVaccines }: Props) {
         setSheet({ kind: 'milk', editId: t.recordId })
       },
     }
-    return [changeAmount, undo]
+    return [changeAmount, changeTime, undo]
   }
 
   return (
@@ -148,7 +173,7 @@ function HomeScreen({ onOpenSettings, onOpenVaccines }: Props) {
           className={isAsleep ? 'record-button asleep' : 'record-button'}
           onClick={() => record({ type: 'sleep', at: Date.now(), sleep: isAsleep ? 'awake' : 'asleep' })}
         >
-          {isAsleep ? '起きた' : '寝た'}
+          {isAsleep ? '起床' : '睡眠'}
           {isAsleep && latestSleep && <small>{formatTime(latestSleep.at)}から睡眠中</small>}
         </button>
         <button className="record-button" onClick={() => record({ type: 'pee', at: Date.now() })}>
@@ -169,6 +194,14 @@ function HomeScreen({ onOpenSettings, onOpenVaccines }: Props) {
 
       {sheet?.kind === 'milk' && (
         <MilkSheet onSelect={(ml) => onMilkSelected(ml, sheet.editId)} onClose={() => setSheet(null)} />
+      )}
+      {sheet?.kind === 'time' && (
+        <TimeSheet
+          title={recordTitle(sheet.record)}
+          at={sheet.record.at}
+          onSave={(at) => onTimeSelected(sheet.record, at)}
+          onClose={() => setSheet(null)}
+        />
       )}
       {sheet?.kind === 'temperature' && (
         <TemperatureSheet

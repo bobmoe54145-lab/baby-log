@@ -12,7 +12,7 @@ type Props = {
 }
 
 // 表示しておく時間（ミリ秒）
-const DURATION_MS = 5000
+const DURATION_MS = 8000
 
 // 画面下に数秒だけ出るお知らせ。「取り消す」などのボタンを置ける
 function Toast({ message, actions, onDismiss }: Props) {
