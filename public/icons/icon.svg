@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <!-- 背景：アプリの色。iPhone が角を丸めるので四角のままにする -->
-  <rect width="512" height="512" fill="#d9776b"/>
+  <rect width="512" height="512" fill="#e58fa1"/>
   <!-- 哺乳びん（中央の約6割に収めて、丸く切り抜かれても欠けないようにする） -->
   <g fill="#ffffff">
     <!-- 乳首 -->
@@ -11,7 +11,7 @@
     <rect x="186" y="194" width="140" height="226" rx="34"/>
   </g>
   <!-- 目盛り -->
-  <g stroke="#d9776b" stroke-width="10" stroke-linecap="round">
+  <g stroke="#e58fa1" stroke-width="10" stroke-linecap="round">
     <line x1="210" y1="260" x2="246" y2="260"/>
     <line x1="210" y1="310" x2="236" y2="310"/>
     <line x1="210" y1="360" x2="246" y2="360"/>

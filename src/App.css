@@ -7,16 +7,20 @@
 
 .content {
   flex: 1;
-  padding: 16px;
-  /* iPhone のノッチ部分に文字が隠れないようにする */
-  padding-top: calc(16px + env(safe-area-inset-top));
+  padding: 0 16px 16px;
 }
 
+/* 画面上部：ピンクの帯。画面の端から端まで広げる */
 .screen-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  margin: 0 -16px 16px;
+  /* iPhone のノッチ部分に文字が隠れないようにする */
+  padding: calc(12px + env(safe-area-inset-top)) 16px 12px;
+  background: var(--header-bg);
+  border-radius: 0 0 20px 20px;
 }
 
 .screen-header h1 {
@@ -45,13 +49,13 @@
   color: var(--text-sub);
 }
 
-/* 画面下のタブ */
+/* 画面下のタブ：上部と同じピンクの帯 */
 .tab-bar {
   position: sticky;
   bottom: 0;
   display: flex;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
+  background: var(--header-bg);
+  border-radius: 20px 20px 0 0;
   /* iPhone の画面下のバー部分と重ならないようにする */
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -71,6 +75,12 @@
   font-weight: bold;
 }
 
+.tab-icon {
+  display: block;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
 /* ボタンを押したときなどに画面が拡大されないようにする */
 button {
   touch-action: manipulation;
@@ -79,7 +89,7 @@ button {
 /* 「前回の授乳から◯時間◯分」の表示 */
 .elapsed-card {
   background: var(--surface);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 16px;
   margin-bottom: 16px;
   text-align: center;
@@ -115,15 +125,32 @@ button {
   gap: 2px;
   min-height: 72px;
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
+  border: 2px solid transparent;
+  border-radius: 20px;
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
 }
 
+/* 押している間は少し沈んだように見せる */
 .record-button:active {
-  background: var(--border);
+  transform: scale(0.97);
+  filter: brightness(0.96);
+}
+
+/* 記録の種類ごとの淡い色 */
+.record-button.tone-pink { background: var(--tone-pink); }
+.record-button.tone-peach { background: var(--tone-peach); }
+.record-button.tone-lavender { background: var(--tone-lavender); }
+.record-button.tone-yellow { background: var(--tone-yellow); }
+.record-button.tone-beige { background: var(--tone-beige); }
+.record-button.tone-mint { background: var(--tone-mint); }
+.record-button.tone-blue { background: var(--tone-blue); }
+
+/* 文字の後ろの絵（絵文字） */
+.record-emoji {
+  margin-left: 4px;
+  font-size: 22px;
 }
 
 .record-button small {
@@ -183,7 +210,7 @@ button {
 .sheet {
   width: 100%;
   background: var(--bg);
-  border-radius: 16px 16px 0 0;
+  border-radius: 20px 20px 0 0;
   padding: 16px;
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }
@@ -256,7 +283,7 @@ button {
 .primary {
   min-height: 52px;
   padding: 0 20px;
-  background: var(--accent);
+  background: var(--primary);
   color: #ffffff;
   border: none;
   border-radius: 12px;
@@ -361,7 +388,7 @@ button {
   margin: 0 0 16px;
   padding: 12px 16px;
   background: var(--surface);
-  border-radius: 16px;
+  border-radius: 20px;
 }
 
 .last-list dt {
@@ -471,7 +498,7 @@ button {
 .day-summary,
 .calendar {
   background: var(--surface);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 10px;
 }
 
@@ -569,7 +596,7 @@ button {
 }
 
 .calendar-day.selected {
-  background: var(--accent);
+  background: var(--primary);
   color: #ffffff;
   font-weight: bold;
 }
@@ -605,6 +632,17 @@ button {
   font-size: 14px;
 }
 
+/* 名前の下の段に、今日の日付を真ん中にそろえて大きく出す（名前より大きく） */
+.header-date {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--text);
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
 /* 子どもの情報が未登録のときの案内 */
 .setup-banner {
   width: 100%;
@@ -628,7 +666,7 @@ button {
   padding: 12px 16px;
   background: var(--surface);
   border: none;
-  border-radius: 16px;
+  border-radius: 20px;
   text-align: left;
   cursor: pointer;
 }
@@ -648,7 +686,7 @@ button {
   margin: 0;
   padding: 0;
   background: var(--surface);
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
 }
 
@@ -748,7 +786,7 @@ button {
 .chart-card {
   padding: 12px;
   background: var(--surface);
-  border-radius: 16px;
+  border-radius: 20px;
 }
 
 .chart-readout {

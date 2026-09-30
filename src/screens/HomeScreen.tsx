@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { addRecord, db, getLatest, getLatestFeeding, type CareRecord } from '../db'
 import { describeRecord, formatElapsed, formatTime } from '../format'
-import { formatAge, formatDateLong, parseDateInput, startOfDay } from '../date'
+import { formatAge, formatDateLong, formatFullDate, parseDateInput, startOfDay } from '../date'
 import { useNow } from '../hooks/useNow'
 import { useSchedule } from '../hooks/useChild'
 import { doseName, nextReservation, type DoseStatus } from '../vaccineSchedule'
@@ -136,6 +136,7 @@ function HomeScreen({ onOpenSettings, onOpenVaccines }: Props) {
         <button className="icon-button" onClick={onOpenSettings} aria-label="設定">
           ⚙
         </button>
+        <p className="header-date">{formatFullDate(now)}</p>
       </header>
 
       {child === null && (
@@ -159,34 +160,40 @@ function HomeScreen({ onOpenSettings, onOpenVaccines }: Props) {
       </div>
 
       <div className="record-grid">
-        <button className="record-button" onClick={() => record({ type: 'breast', at: Date.now(), side: 'left' })}>
-          授乳 左
+        <button
+          className="record-button tone-pink"
+          onClick={() => record({ type: 'breast', at: Date.now(), side: 'left' })}
+        >
+          <RecordLabel text="授乳 左" emoji="🤱" />
         </button>
-        <button className="record-button" onClick={() => record({ type: 'breast', at: Date.now(), side: 'right' })}>
-          授乳 右
+        <button
+          className="record-button tone-pink"
+          onClick={() => record({ type: 'breast', at: Date.now(), side: 'right' })}
+        >
+          <RecordLabel text="授乳 右" emoji="🤱" />
         </button>
-        <button className="record-button" onClick={onMilk}>
-          ミルク
+        <button className="record-button tone-peach" onClick={onMilk}>
+          <RecordLabel text="ミルク" emoji="🍼" />
           {latestMilk?.amountMl && <small>{latestMilk.amountMl}ml</small>}
         </button>
         <button
-          className={isAsleep ? 'record-button asleep' : 'record-button'}
+          className={isAsleep ? 'record-button tone-lavender asleep' : 'record-button tone-lavender'}
           onClick={() => record({ type: 'sleep', at: Date.now(), sleep: isAsleep ? 'awake' : 'asleep' })}
         >
-          {isAsleep ? '起床' : '睡眠'}
+          {isAsleep ? <RecordLabel text="起床" emoji="☀️" /> : <RecordLabel text="睡眠" emoji="😴" />}
           {isAsleep && latestSleep && <small>{formatTime(latestSleep.at)}から睡眠中</small>}
         </button>
-        <button className="record-button" onClick={() => record({ type: 'pee', at: Date.now() })}>
-          おしっこ
+        <button className="record-button tone-yellow" onClick={() => record({ type: 'pee', at: Date.now() })}>
+          <RecordLabel text="おしっこ" emoji="💧" />
         </button>
-        <button className="record-button" onClick={() => record({ type: 'poop', at: Date.now() })}>
-          うんち
+        <button className="record-button tone-beige" onClick={() => record({ type: 'poop', at: Date.now() })}>
+          <RecordLabel text="うんち" emoji="💩" />
         </button>
-        <button className="record-button" onClick={() => setSheet({ kind: 'temperature' })}>
-          体温
+        <button className="record-button tone-mint" onClick={() => setSheet({ kind: 'temperature' })}>
+          <RecordLabel text="体温" emoji="🌡️" />
         </button>
-        <button className="record-button" onClick={() => setSheet({ kind: 'symptom' })}>
-          症状メモ
+        <button className="record-button tone-blue" onClick={() => setSheet({ kind: 'symptom' })}>
+          <RecordLabel text="症状メモ" emoji="📝" />
         </button>
       </div>
 
@@ -227,6 +234,18 @@ function HomeScreen({ onOpenSettings, onOpenVaccines }: Props) {
         <Toast key={toast.message + toast.recordId} message={toast.message} actions={toastActions(toast)} onDismiss={closeToast} />
       )}
     </section>
+  )
+}
+
+// 記録ボタンの文字と、その後ろの絵（絵文字）。絵は読み上げない
+function RecordLabel({ text, emoji }: { text: string; emoji: string }) {
+  return (
+    <span>
+      {text}
+      <span className="record-emoji" aria-hidden="true">
+        {emoji}
+      </span>
+    </span>
   )
 }
 

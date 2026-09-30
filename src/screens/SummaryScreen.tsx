@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db, getLatest, type CareRecord } from '../db'
-import { addDays, formatAge, formatMonthDay, formatMonthDayWeek, isSameDay, parseDateInput, startOfDay } from '../date'
+import { addDays, formatAge, formatFullDate, formatMonthDay, formatMonthDayWeek, isSameDay, parseDateInput, startOfDay } from '../date'
 import { describeRecord, formatElapsed, formatTime } from '../format'
 import { useNow } from '../hooks/useNow'
 import { useSchedule } from '../hooks/useChild'
@@ -94,6 +94,7 @@ function SummaryScreen() {
             </span>
           )}
         </div>
+        <p className="header-date">{formatFullDate(now)}</p>
       </header>
 
       <dl className="last-list">

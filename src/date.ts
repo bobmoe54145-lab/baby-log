@@ -106,3 +106,9 @@ export function formatAge(birthday: number, now: number) {
   }
   return `生後${months}ヶ月${days}日`
 }
+
+// 「2026/9/30(水)」の形にする（画面上部の今日の日付に使う）
+export function formatFullDate(ms: number) {
+  const d = new Date(ms)
+  return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}(${WEEKDAYS[d.getDay()]})`
+}

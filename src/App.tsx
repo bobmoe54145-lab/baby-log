@@ -9,11 +9,11 @@ import './App.css'
 // 画面下のタブの種類
 type Tab = 'home' | 'summary' | 'growth' | 'vaccine'
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: 'home', label: 'ホーム' },
-  { id: 'summary', label: 'まとめ' },
-  { id: 'growth', label: '成長' },
-  { id: 'vaccine', label: '予防接種' },
+const TABS: { id: Tab; label: string; icon: string }[] = [
+  { id: 'home', label: 'ホーム', icon: '🏠' },
+  { id: 'summary', label: 'まとめ', icon: '📋' },
+  { id: 'growth', label: '成長', icon: '📈' },
+  { id: 'vaccine', label: '予防接種', icon: '💉' },
 ]
 
 function App() {
@@ -49,6 +49,9 @@ function App() {
             className={t.id === tab ? 'tab active' : 'tab'}
             onClick={() => setTab(t.id)}
           >
+            <span className="tab-icon" aria-hidden="true">
+              {t.icon}
+            </span>
             {t.label}
           </button>
         ))}

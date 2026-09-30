@@ -1,17 +1,31 @@
-/* 色の設定：明るい画面用 */
+/* 色の設定：明るい画面用（パステルピンクを基調にした、温かみのある配色） */
 :root {
-  --bg: #f7f5f2;
+  --bg: #fff5f6;
   --surface: #ffffff;
-  --text: #2b2b2b;
-  --text-sub: #6b6b6b;
-  --accent: #d9776b;
-  --border: #e4e0da;
+  /* 文字は真っ黒ではなく、温かみのあるこげ茶色 */
+  --text: #4a3438;
+  --text-sub: #87696f;
+  /* 強調の色（選んでいるもの・リンクなど）。白い背景でも読める濃さのピンク */
+  --accent: #c9566d;
+  /* 保存などの大事なボタンの背景（白い文字をのせる） */
+  --primary: #d0607a;
+  --border: #f2dde1;
+  /* 画面上部と下のタブの帯 */
+  --header-bg: #fbd5dc;
   /* お知らせ（暗い背景）の上のボタンの色 */
-  --toast-accent: #f2a69c;
+  --toast-accent: #ffc2cc;
   /* 成長曲線：標準の範囲の帯と中央値の線 */
-  --chart-band-outer: #ede9e3;
-  --chart-band-inner: #ddd7ce;
-  --chart-median: #a39b90;
+  --chart-band-outer: #f8ebee;
+  --chart-band-inner: #efd9de;
+  --chart-median: #b8959c;
+  /* 記録ボタンの淡い色（種類ごと） */
+  --tone-pink: #fde4ea;
+  --tone-peach: #feead8;
+  --tone-lavender: #ece5fa;
+  --tone-yellow: #fdf3cf;
+  --tone-beige: #f4e8dc;
+  --tone-mint: #dff3ea;
+  --tone-blue: #e1eefb;
 
   font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif;
   color: var(--text);
@@ -22,16 +36,25 @@
 /* iPhone がダークモードのときは暗い色に切り替える */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #151515;
-    --surface: #222222;
-    --text: #eeeeee;
-    --text-sub: #a0a0a0;
-    --accent: #e8958a;
-    --border: #333333;
-    --toast-accent: #b5533f;
-    --chart-band-outer: #2b2b2b;
-    --chart-band-inner: #3a3a3a;
-    --chart-median: #777777;
+    --bg: #1d1718;
+    --surface: #2a2224;
+    --text: #f5e9eb;
+    --text-sub: #b9a4a8;
+    --accent: #f29fb0;
+    --primary: #c85a73;
+    --border: #3d3033;
+    --header-bg: #3b2a2f;
+    --toast-accent: #b5475f;
+    --chart-band-outer: #33282b;
+    --chart-band-inner: #403236;
+    --chart-median: #8a7479;
+    --tone-pink: #43292f;
+    --tone-peach: #45312a;
+    --tone-lavender: #342d45;
+    --tone-yellow: #413a24;
+    --tone-beige: #3d332b;
+    --tone-mint: #263a31;
+    --tone-blue: #26323f;
   }
 }
 
