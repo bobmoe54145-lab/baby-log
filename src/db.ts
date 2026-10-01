@@ -51,7 +51,9 @@ export type Checkup = {
 }
 
 // iPhone のブラウザの中にある保存場所（IndexedDB）
-export const db = new Dexie('baby-log') as Dexie & {
+// cache: 'disabled'：前回の結果を覚えておく仕組みを使わず、記録が変わるたびに調べ直す。
+// 覚えておく仕組みだと、記録の時刻を前にずらしたとき「いちばん新しい記録」が正しく入れ替わらなかったため
+export const db = new Dexie('baby-log', { cache: 'disabled' }) as Dexie & {
   records: EntityTable<CareRecord, 'id'>
   settings: EntityTable<ChildProfile, 'id'>
   vaccinations: EntityTable<Vaccination, 'id'>
