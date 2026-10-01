@@ -18,6 +18,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 公開先：https://baby-log-e1o.pages.dev/ （Cloudflare Pages のプロジェクト `baby-log`）
 
+GitHub：https://github.com/bobmoe54145-lab/baby-log （公開リポジトリ）。**誰でも見られるので、個人情報（子どもの名前・誕生日・メールアドレスなど）や鍵をコミットしないこと。** push は外に出る操作なので、ユーザーに確認してから行う。
+
 ## Commands
 
 - `npm run dev` — 開発用サーバーを起動（http://127.0.0.1:5173 。この環境では localhost だと開けないことがある）
